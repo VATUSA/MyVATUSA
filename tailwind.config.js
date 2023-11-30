@@ -7,6 +7,7 @@ export default {
         "usa-red": "#B22233",
         "usa-blue": "#052344",
         "usa-white": "#F8F9FE",
+        "usa-grey": "#2E363F",
       },
     },
     fontFamily: {
