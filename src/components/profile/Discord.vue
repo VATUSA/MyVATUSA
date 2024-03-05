@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <p>Discord</p>
+</template>
 
 <script setup lang="ts"></script>
 

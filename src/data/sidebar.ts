@@ -32,23 +32,25 @@ const SidebarLinks: Link[] = [
   //   separator: true,
   //   separatorTitle: "Controllers",
   // },
-  // {
-  //   title: "Training",
-  //   icon: "fa-solid fa-plane",
-  //   subLinks: [
-  //     {
-  //       title: "Book a Session",
-  //       icon: "fa-solid fa-plane",
-  //       to: { name: "Training-Scheduler" },
-  //     },
-  //     {
-  //       title: "My Training Notes",
-  //       icon: "fa-solid fa-plane",
-  //       to: { name: "Training-Notes" },
-  //     },
-  //   ],
-  //   showSubLinks: true,
-  // },
+  {
+    title: "Training",
+    icon: "fa-solid fa-plane",
+    subLinks: [
+      {
+        title: "Book a Session",
+        icon: "fa-solid fa-plane",
+        // to: { name: "Training-Scheduler" },
+        to: { name: "Home" },
+      },
+      {
+        title: "My Training Notes",
+        icon: "fa-solid fa-plane",
+        // to: { name: "Training-Notes" },
+        to: { name: "Home" },
+      },
+    ],
+    showSubLinks: true,
+  },
   // {
   //   title: "Events",
   //   icon: "fa-solid fa-calendar",

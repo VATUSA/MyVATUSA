@@ -51,8 +51,4 @@ const isDropdownOpen = ref<boolean>(false);
 const toggleDropdown = (): void => {
   isDropdownOpen.value = !isDropdownOpen.value;
 };
-
-const isSelectedPage = (page: string): boolean => {
-  return page === "Profile";
-};
 </script>

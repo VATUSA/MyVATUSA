@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory, NavigationGuard, Router } from "vue-router";
-
-import useUserStore from "@/stores/user";
+import { createRouter, createWebHistory, Router } from "vue-router";
+//
+// import useUserStore from "@/stores/user";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -60,27 +60,27 @@ const buildRouter = (): Router => {
 
 const router = buildRouter();
 
-const check: NavigationGuard = (to, from, next): void => {
-  const userStore = useUserStore();
-  const { requiresAuth } = to.meta;
-
-  if (requiresAuth && !userStore.user) {
-    next({ name: "Login" });
-    return;
-  }
-
-  if (requiresAuth && userStore.user) {
-    const { requiresRole } = to.meta;
-    if (requiresRole) {
-      if (!requiresRole.includes(userStore.user.role)) {
-        next({ name: "Forbidden" });
-        return;
-      }
-    }
-  }
-
-  next();
-};
+// const check: NavigationGuard = (to, from, next): void => {
+//   const userStore = useUserStore();
+//   const { requiresAuth } = to.meta;
+//
+//   if (requiresAuth && !userStore.user) {
+//     next({ name: "Login" });
+//     return;
+//   }
+//
+//   if (requiresAuth && userStore.user) {
+//     const { requiresRole } = to.meta;
+//     if (requiresRole) {
+//       if (!requiresRole.includes(userStore.user.role)) {
+//         next({ name: "Forbidden" });
+//         return;
+//       }
+//     }
+//   }
+//
+//   next();
+// };
 
 // router.beforeEach((to, from, next) => {
 //   const userStore = useUserStore();

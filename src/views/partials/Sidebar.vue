@@ -9,6 +9,7 @@
         <hr class="bg-extra-dark-purple dark:bg-extra-dark-purple my-2.5 flex-grow" />
       </div>
       <router-link
+        v-if="link.to"
         class="flex rounded p-3 hover:bg-white text-usa-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5"
         active-class="bg-white bg-opacity-10 font-bold text-usa-red"
         :to="link.to"
@@ -24,29 +25,36 @@
         </button>
       </router-link>
       <div
-        v-for="(subLink, index) in link.subLinks"
-        v-if="showSubLinks.includes(link.title)"
-        :key="index"
-        class="flex rounded p-2 hover:bg-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between text-usa-white px-10"
+        v-else
+        class="flex rounded p-3 hover:bg-white text-usa-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5"
+        active-class="bg-white bg-opacity-10 font-bold text-usa-red"
       >
-        <h2>{{ subLink.title }}</h2>
+        <div class="flex items-center gap-x-4">
+          <span class="w-4 mx-auto text-center">
+            <i :class="link.icon"></i>
+          </span>
+          <h2>{{ link.title }}</h2>
+        </div>
+        <button v-if="link.subLinks" @click="toggleSubLink(link.title)">
+          <i :class="showSubLinks.includes(link.title) ? 'fas fa-chevron-down' : 'fas fa-chevron-up'"></i>
+        </button>
+      </div>
+      <div v-if="showSubLinks.includes(link.title)">
+        <div
+          v-for="(subLink, index) in link.subLinks"
+          :key="index"
+          class="flex rounded p-2 hover:bg-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between text-usa-white px-10"
+        >
+          <h2>{{ subLink.title }}</h2>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { RouteLocationRaw, useRoute } from "vue-router";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import SidebarLinks from "@/data/sidebar";
-
-const route = useRoute();
-const currentRouteName = computed(() => route.name);
-
-const isCurrentRoute = (to: RouteLocationRaw | undefined): boolean => {
-  if (to === undefined) return false;
-  return to.name === currentRouteName.value;
-};
 
 const showSubLinks = ref<string[]>([]);
 
