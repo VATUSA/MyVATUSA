@@ -1,8 +1,9 @@
 {
   "name": "myvatusa",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
+  "license": "Apache-2.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -31,12 +32,11 @@
     "eslint-plugin-prettier": "latest",
     "eslint-plugin-vue": "latest",
     "postcss": "^8.4.30",
-    "prettier": "latest",
+    "prettier": "^3.2.5",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-vue-type-imports": "^0.2.5",
     "vue-tsc": "latest"
-  },
-  "packageManager": "yarn@4.1.1"
+  }
 }
