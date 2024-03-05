@@ -18,6 +18,22 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/facility",
+    name: "Facility",
+    component: () => import("@/views/Facility.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: () => import("@/views/Profile.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 const buildRouter = (): Router => {

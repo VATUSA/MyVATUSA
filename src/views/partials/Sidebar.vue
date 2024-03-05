@@ -8,9 +8,10 @@
         </h2>
         <hr class="bg-extra-dark-purple dark:bg-extra-dark-purple my-2.5 flex-grow" />
       </div>
-      <div
-        class="flex rounded p-3 hover:bg-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5"
-        :class="isCurrentRoute(link.to) ? 'bg-white bg-opacity-10 font-bold text-usa-red' : 'text-usa-white'"
+      <router-link
+        class="flex rounded p-3 hover:bg-white text-usa-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5"
+        active-class="bg-white bg-opacity-10 font-bold text-usa-red"
+        :to="link.to"
       >
         <div class="flex items-center gap-x-4">
           <span class="w-4 mx-auto text-center">
@@ -18,10 +19,10 @@
           </span>
           <h2>{{ link.title }}</h2>
         </div>
-        <button v-if="link.subLinks" @click="toggleSubLinkg(link.title)">
+        <button v-if="link.subLinks" @click="toggleSubLink(link.title)">
           <i :class="showSubLinks.includes(link.title) ? 'fas fa-chevron-down' : 'fas fa-chevron-up'"></i>
         </button>
-      </div>
+      </router-link>
       <div
         v-for="(subLink, index) in link.subLinks"
         v-if="showSubLinks.includes(link.title)"
