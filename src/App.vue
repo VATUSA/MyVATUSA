@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <Sidebar />
+    <Sidebar class="hidden lg:block" />
     <div class="w-full h-screen bg-gray-100">
       <Header />
       <router-view />
