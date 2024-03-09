@@ -4,7 +4,7 @@
   >
     <button
       class="my-auto lg:hidden text-xl leading-10 rounded-md hover:text-usa-red hover:scale-110 transition-all"
-      @click="console.log('will toggle the nav')"
+      @click="toggleNav()"
     >
       <i class="fa-solid fa-bars"></i>
     </button>
@@ -51,12 +51,20 @@
         </div>
       </div>
     </div>
+
+    <MobileSidebar :class="isNavOpen ? 'opacity-0 invisible' : 'opacity-100 visible'" @toggle="toggleNav()" />
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+import MobileSidebar from "@/views/partials/MobileSidebar.vue";
 
 const isDropdownOpen = ref<boolean>(false);
+const isNavOpen = ref<boolean>(false);
+
+const toggleNav = (): void => {
+  isNavOpen.value = !isNavOpen.value;
+};
 
 const toggleDropdown = (): void => {
   isDropdownOpen.value = !isDropdownOpen.value;
