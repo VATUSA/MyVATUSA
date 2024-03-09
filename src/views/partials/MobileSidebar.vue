@@ -1,6 +1,7 @@
 <template>
-  <div class="fixed top-[60px] left-0 w-screen h-screen z-50 transition-all">
-    <div class="bg-usa-blue w-[275px] p-4 text-sm">
+  <div class="fixed top-[60px] left-0 w-screen h-screen z-50 transition-all lg:invisible lg:opacity-0">
+    <div class="top-0 left-0 w-full h-full absolute bg-black bg-opacity-80 content-['']" @click="$emit('toggle')"></div>
+    <div class="relative bg-usa-blue w-[275px] max-w-[80%] p-4 text-sm rounded-br">
       <div v-for="(link, idx) in SidebarLinks" :key="idx">
         <div v-if="link.separator" class="mt-2 flex py-1 my-auto">
           <h2 v-if="link.separatorTitle !== undefined" class="mr-4 text-usa-white text-md font-bold">
@@ -13,6 +14,7 @@
           class="flex rounded p-3 hover:bg-white text-usa-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5"
           active-class="bg-white bg-opacity-10 font-bold text-usa-red"
           :to="link.to"
+          @click="$emit('toggle')"
         >
           <div class="flex items-center gap-x-4">
             <span class="w-4 mx-auto text-center">
@@ -28,6 +30,7 @@
           v-else
           class="flex rounded p-3 hover:bg-white text-usa-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5"
           active-class="bg-white bg-opacity-10 font-bold text-usa-red"
+          @click="$emit('toggle')"
         >
           <div class="flex items-center gap-x-4">
             <span class="w-4 mx-auto text-center">

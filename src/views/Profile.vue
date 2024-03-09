@@ -32,7 +32,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 // Components
 import Card from "@/components/Card.vue";
@@ -46,7 +47,25 @@ const tabs = ref<string[]>(["Profile", "Notifications", "Discord"]);
 const selectedTab = ref<number>(0);
 const changeTab = (tab: number): void => {
   selectedTab.value = tab;
+  window.location.hash = tabs.value[tab].toLowerCase();
 };
+
+const route = useRoute();
+
+const currentHashTab = computed(() => {
+  const hash = route.hash.slice(1); // Remove leading "#"
+
+  return tabs.value.findIndex((tab) => tab.toLowerCase() === hash) || 0;
+});
+
+watch(currentHashTab, (newTab) => {
+  selectedTab.value = newTab;
+});
+
+// Initial check on component mount
+onMounted(() => {
+  selectedTab.value = currentHashTab.value;
+});
 </script>
 
 <style scoped>
