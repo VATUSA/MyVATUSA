@@ -55,7 +55,9 @@ const route = useRoute();
 const currentHashTab = computed(() => {
   const hash = route.hash.slice(1); // Remove leading "#"
 
-  return tabs.value.findIndex((tab) => tab.toLowerCase() === hash) || 0;
+  const val = tabs.value.findIndex((tab) => tab.toLowerCase() === hash);
+
+  return val === -1 ? 0 : val;
 });
 
 watch(currentHashTab, (newTab) => {
@@ -64,6 +66,7 @@ watch(currentHashTab, (newTab) => {
 
 // Initial check on component mount
 onMounted(() => {
+  console.log(currentHashTab.value);
   selectedTab.value = currentHashTab.value;
 });
 </script>
