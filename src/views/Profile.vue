@@ -2,7 +2,7 @@
   <Page title="Profile">
     <Card>
       <div class="flex border-b gap-x-2">
-        <div class="flex px-4 gap-x-2">
+        <div class="flex px-4 gap-x-2 overflow-y-scroll">
           <p
             v-for="(tab, index) in tabs"
             :key="index"
