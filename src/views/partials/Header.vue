@@ -8,7 +8,7 @@
     >
       <i class="fa-solid fa-bars"></i>
     </button>
-    <img src="@/assets/logo-alt.png" class="my-auto block lg:hidden w-28" />
+    <img src="@/assets/logo.png" class="my-auto block lg:hidden w-28" />
     <div class="my-auto space-x-8">
       <div class="relative inline-block text-left">
         <button type="button" @click="toggleNotification">

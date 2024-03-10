@@ -1,6 +1,6 @@
 <template>
   <div class="bg-usa-blue w-[275px] p-4 text-sm">
-    <img src="@/assets/logo-alt.png" class="w-5/6 pb-10" />
+    <img src="@/assets/logo.png" class="w-5/6 pb-10" />
     <div v-for="(link, idx) in SidebarLinks" :key="idx">
       <div v-if="link.separator" class="mt-2 flex py-1 my-auto">
         <h2 v-if="link.separatorTitle !== undefined" class="mr-4 text-usa-white text-md font-bold">
