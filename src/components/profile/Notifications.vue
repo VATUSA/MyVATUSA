@@ -1,5 +1,5 @@
 <template>
-  <p>Notifications</p>
+  <p>Notifications Email Discord Etc</p>
 </template>
 
 <script setup lang="ts"></script>
