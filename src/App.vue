@@ -14,9 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import apiUrl from "@/utils/api";
 import useUserStore from "@/stores/user";
-import { onMounted } from "vue";
 
 // Components
 import FadeOut from "@/components/animations/FadeOut.vue";
@@ -25,13 +23,6 @@ import Loader from "@/components/animations/Loader.vue";
 import Sidebar from "@/views/partials/Sidebar.vue";
 
 const userStore = useUserStore();
-
-onMounted(async () => {
-  await userStore.fetchUser();
-  if (!userStore.isLoggedIn) {
-    window.location.href = `${apiUrl}/v3/user/login?redirect=${window.location.href}`;
-  }
-});
 </script>
 
 <style scoped></style>

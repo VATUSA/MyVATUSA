@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, NavigationGuard, Router } from "vue-router";
 import useUserStore from "@/stores/user";
+import apiUrl from "@/utils/api.ts";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -63,8 +64,7 @@ const check: NavigationGuard = (to, from, next): void => {
   const userStore = useUserStore();
 
   if (!userStore.user) {
-    // TODO - Redirect to SSO with a return URL
-    next({ name: "Login" });
+    window.location.href = `${apiUrl}/v3/user/login?redirect=${window.location.href}`;
     return;
   }
 
