@@ -47,11 +47,11 @@
             <li class="py-2 px-4">
               <div class="flex my-auto justify-between">
                 <div>
-                  <h2 class="text-usa-blue text-xl font-bold -mb-1">Raaj Patel</h2>
-                  <p>r.patel@vatusa.net</p>
+                  <h2 class="text-usa-blue text-xl font-bold -mb-1">{{ userStore.fullName }}</h2>
+                  <p>{{ userStore.user?.email }}</p>
                 </div>
                 <div class="my-auto">
-                  <p class="text-usa-blue text-4xl font-bold">C3</p>
+                  <p class="text-usa-blue text-4xl font-bold">{{ userStore.user?.controller_rating_string }}</p>
                 </div>
               </div>
             </li>
@@ -80,10 +80,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import MobileSidebar from "@/views/partials/MobileSidebar.vue";
+import useUserStore from "@/stores/user";
 
 const isProfileOpen = ref<boolean>(false);
 const isNotificationOpen = ref<boolean>(false);
 const isNavOpen = ref<boolean>(false);
+const userStore = useUserStore();
 
 const toggleNav = (): void => {
   isProfileOpen.value = false;

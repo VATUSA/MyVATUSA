@@ -30,10 +30,13 @@ export interface User {
   first_name: string;
   last_name: string;
   preferred_name: string;
+  pref_name_enabled: boolean;
   email: string;
   preferred_ois: string;
   pilot_rating: number;
+  pilot_rating_string: string;
   controller_rating: number;
+  controller_rating_string: string;
   discord_id: string;
   rosters?: Roster[];
 }

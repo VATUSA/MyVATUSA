@@ -1,5 +1,5 @@
 <template>
-  <Page title="Raaj Patel">
+  <Page :title="userStore.fullName">
     <div class="flex divide-x divide-gray-300">
       <div class="w-3/4 mr-10 space-y-6">
         <Card> Controller Stuff </Card>
@@ -26,4 +26,8 @@
 <script setup lang="ts">
 import Page from "@/components/Page.vue";
 import Card from "@/components/Card.vue";
+
+import useUserStore from "@/stores/user";
+
+const userStore = useUserStore();
 </script>

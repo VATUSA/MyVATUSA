@@ -17,7 +17,7 @@
       <div class="m-10">
         <transition mode="out-in">
           <div v-if="selectedTab == 0" key="0" class="">
-            <Profile />
+            <Profile :user="userStore.user" />
           </div>
           <div v-else-if="selectedTab == 1" key="1">
             <Notifications />
@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import useUserStore from "@/stores/user";
 
 // Components
 import Card from "@/components/Card.vue";
@@ -41,6 +42,8 @@ import Discord from "@/components/profile/Discord.vue";
 import Notifications from "@/components/profile/Notifications.vue";
 import Page from "@/components/Page.vue";
 import Profile from "@/components/profile/Profile.vue";
+
+const userStore = useUserStore();
 
 const tabs = ref<string[]>(["Profile", "Notifications", "Discord"]);
 
