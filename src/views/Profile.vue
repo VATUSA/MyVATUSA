@@ -69,8 +69,8 @@ watch(currentHashTab, (newTab) => {
 
 // Initial check on component mount
 onMounted(() => {
-  console.log(currentHashTab.value);
   selectedTab.value = currentHashTab.value;
+  userStore.fetchRosters();
 });
 </script>
 

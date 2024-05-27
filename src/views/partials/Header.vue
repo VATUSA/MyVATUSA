@@ -66,7 +66,7 @@
             <a class="cursor-pointer">
               <p class="font-bold text-md py-2.5 px-4 hover:bg-gray-100 text-gray-600">Help Center</p>
             </a>
-            <a class="cursor-pointer">
+            <a class="cursor-pointer" @click="userStore.logout()">
               <p class="font-bold text-md py-2.5 px-4 hover:bg-gray-100 text-gray-600">Sign Out</p>
             </a>
           </ul>

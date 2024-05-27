@@ -3,6 +3,8 @@ ARG build_cmd="build"
 FROM node:lts-alpine as build
 ARG build_cmd
 
+ENV VITE_API_URL=https://api.vatusa.dev
+
 WORKDIR /app
 COPY package*.json ./
 COPY . .

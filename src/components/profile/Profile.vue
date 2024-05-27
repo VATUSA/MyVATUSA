@@ -70,7 +70,7 @@
   <div class="mt-20 border-b">
     <h3 class="font-bold">Facility Details</h3>
   </div>
-  <div v-if="!!rosters" class="m-5">
+  <div v-if="!!user?.rosters" class="m-5">
     <div class="grid grid-cols-4 gap-x-5 border-b font-semibold">
       <div class="col-span-1 flex">Facility</div>
       <div class="col-span-1 flex">Type</div>
@@ -78,7 +78,7 @@
       <div class="col-span-1 flex">Exit Date</div>
     </div>
     <div
-      v-for="(roster, idx) in rosters"
+      v-for="(roster, idx) in user.rosters"
       :key="idx"
       class="grid grid-cols-4 gap-x-5 gap-y-10"
       :class="idx % 2 == 0 ? 'bg-usa-white' : 'bg-white'"
@@ -102,11 +102,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { User, Roster } from "@/types";
+import { User } from "@/types";
 
 const props = defineProps<{
   user: User | null;
-  rosters: Roster[] | null;
 }>();
 
 const editableUser = ref<User | null>(props.user);

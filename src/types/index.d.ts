@@ -49,11 +49,20 @@ export interface Roster {
   home: boolean;
   visiting: boolean;
   status: string;
+  roles: Role[];
   created_at: string;
   deleted_at?: string;
+}
+
+export interface Role {
+  role: string;
+  facility_id: string;
+  roster_id: number;
+  created_at: string;
 }
 
 export interface Facility {
   id: string;
   name: string;
+  url: string;
 }

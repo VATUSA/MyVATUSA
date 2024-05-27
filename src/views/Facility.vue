@@ -4,16 +4,27 @@
       <div class="px-4 border-b">
         <h3 class="font-bold">Facilities you've joined</h3>
       </div>
-      <div class="m-5">
-        <p v-if="rosters.length == 0" class="text-gray-500">You haven't joined any facilities yet.</p>
+      <div v-if="!userStore.hasFetchedRosters || !facilityStore.hasFetched" class="m-5">
+        <Spinner />
+      </div>
+      <div v-else class="m-5">
+        <p v-if="!userStore.user?.rosters" class="text-gray-500">You haven't joined any facilities yet.</p>
         <div v-else class="grid gap-y-5 lg:grid-cols-2 gap-x-20">
-          <div v-for="(roster, idx) in rosters" :key="idx" class="border-b">
+          <div v-for="(roster, idx) in userStore.user!.rosters" :key="idx" class="border-b">
             <div class="flex justify-between">
               <div>
                 <div>
                   <span class="font-semibold text-xl">{{ roster.facility }}</span>
                   <span v-if="roster.status == 'loa'" class="font-semibold text-xl text-yellow-500 ml-2">(LOA)</span>
-                  - {{ getFacility(roster.facility)?.name }}
+                  - {{ facilityStore.getFacility(roster.facility)?.name }}
+                  <a
+                    v-if="facilityStore.getFacility(roster.facility)?.url"
+                    class="mx-1"
+                    :href="facilityStore.getFacility(roster.facility)?.url"
+                    target="blank"
+                  >
+                    <i class="fa-solid fa-arrow-up-right-from-square text-gray-500"></i>
+                  </a>
                 </div>
                 <p v-if="roster.home" class="text-sm text-green-500">Home</p>
                 <p v-else-if="roster.visiting" class="text-sm text-blue-500">Visiting</p>
@@ -24,7 +35,10 @@
             <div class="my-2 space-y-1">
               <div>
                 <h5 class="font-semibold">Roles:</h5>
-                <p class="">TA, AWM</p>
+                <div class="flex gap-x-2">
+                  <span v-if="roster.roles.length == 0" class="text-gray-700">No roles</span>
+                  <span v-for="(role, idx) in roster.roles" :key="idx" class="text-gray-700"> {{ role.role }} </span>
+                </div>
               </div>
               <div>
                 <h5 class="font-semibold">Actions:</h5>
@@ -48,47 +62,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Roster } from "@/types";
+import { onMounted } from "vue";
+import useFacilityStore from "@/stores/facility.ts";
+import useUserStore from "@/stores/user.ts";
 
 // Components
 import Page from "@/components/Page.vue";
 import Card from "@/components/Card.vue";
+import Spinner from "@/components/animations/Spinner.vue";
 
-import getFacility from "../utils/facility";
+const facilityStore = useFacilityStore();
+const userStore = useUserStore();
 
-const rosters = ref<Roster[]>([
-  {
-    id: 1,
-    cid: 1,
-    facility: "ZAB",
-    operating_initials: "RP",
-    home: true,
-    visiting: false,
-    status: "active",
-    created_at: "2021-08-01T00:00:00.000Z",
-  },
-  {
-    id: 2,
-    cid: 1,
-    facility: "ZDV",
-    operating_initials: "RP",
-    home: false,
-    visiting: true,
-    status: "active",
-    created_at: "2021-08-01T00:00:00.000Z",
-  },
-  {
-    id: 3,
-    cid: 1,
-    facility: "ZLC",
-    operating_initials: "RO",
-    home: false,
-    visiting: true,
-    status: "loa",
-    created_at: "2021-08-01T00:00:00.000Z",
-  },
-]);
+onMounted(() => {
+  if (!facilityStore.hasFetched) {
+    facilityStore.fetchFacilities();
+  }
+  if (!userStore.hasFetchedRosters) {
+    userStore.fetchRosters();
+  }
+});
 </script>
 
 <style scoped></style>

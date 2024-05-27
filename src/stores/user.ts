@@ -8,16 +8,19 @@ interface UserState {
   error: string | null;
   fetching: boolean;
   hasFetched: boolean;
+  hasFetchedRosters: boolean;
   loading: Promise<void> | null;
 }
 
-const useUserStore = defineStore("user", {
+const useUserStore = defineStore({
+  id: "user",
   state: () =>
     ({
       user: null,
       error: null,
       fetching: false,
       hasFetched: false,
+      hasFetchedRosters: false,
     }) as UserState,
   getters: {
     isLoggedIn: (state) => !!state.user,
@@ -27,7 +30,7 @@ const useUserStore = defineStore("user", {
     },
   },
   actions: {
-    async fetchUser() {
+    async fetchUser(): Promise<void> {
       this.fetching = true;
       try {
         const { data } = await API.get("/v3/user");
@@ -43,6 +46,32 @@ const useUserStore = defineStore("user", {
       } finally {
         this.fetching = false;
         this.hasFetched = true;
+      }
+    },
+    async fetchRosters(): Promise<void> {
+      if (!this.isLoggedIn) return;
+      try {
+        const { data } = await API.get(`/v3/user/${this.user?.cid}/roster`);
+        this.user!.rosters = data;
+      } catch (e) {
+        this.user!.rosters = [];
+      } finally {
+        this.hasFetchedRosters = true;
+      }
+    },
+    async logout(): Promise<void> {
+      this.fetching = true;
+      try {
+        await API.get("/v3/user/logout");
+        this.user = null;
+        this.hasFetched = false;
+        this.hasFetchedRosters = false;
+        window.location.href = "https://vatusa.net";
+      } catch (e) {
+        // TODO - throw error notification
+        console.log(e);
+      } finally {
+        this.fetching = false;
       }
     },
   },
