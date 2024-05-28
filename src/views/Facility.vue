@@ -21,7 +21,7 @@
                     v-if="facilityStore.getFacility(roster.facility)?.url"
                     class="mx-1"
                     :href="facilityStore.getFacility(roster.facility)?.url"
-                    target="blank"
+                    target="_blank"
                   >
                     <i class="fa-solid fa-arrow-up-right-from-square text-gray-500"></i>
                   </a>
