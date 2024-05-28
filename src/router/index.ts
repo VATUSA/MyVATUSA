@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, NavigationGuard, Router } from "vue-router";
 import useUserStore from "@/stores/user";
-import apiUrl from "@/utils/api.ts";
+import apiUrl from "@/utils/api";
 
 declare module "vue-router" {
   interface RouteMeta {

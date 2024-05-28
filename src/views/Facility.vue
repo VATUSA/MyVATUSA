@@ -8,7 +8,7 @@
         <Spinner />
       </div>
       <div v-else class="m-5">
-        <p v-if="!userStore.user?.rosters" class="text-gray-500">You haven't joined any facilities yet.</p>
+        <p v-if="userStore.user?.rosters?.length == 0" class="text-gray-500">You haven't joined any facilities yet.</p>
         <div v-else class="grid gap-y-5 lg:grid-cols-2 gap-x-20">
           <div v-for="(roster, idx) in userStore.user!.rosters" :key="idx" class="border-b">
             <div class="flex justify-between">
