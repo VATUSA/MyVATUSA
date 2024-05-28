@@ -5,9 +5,10 @@
     </div>
     <div v-else key="element2" class="flex">
       <Sidebar class="hidden lg:block" />
-      <div class="w-full h-screen bg-gray-100">
+      <div class="flex flex-col w-full min-h-screen bg-gray-100">
         <Header />
-        <router-view />
+        <router-view class="flex-grow" />
+        <Footer />
       </div>
     </div>
   </FadeOut>
@@ -21,6 +22,7 @@ import FadeOut from "@/components/animations/FadeOut.vue";
 import Header from "@/views/partials/Header.vue";
 import Loader from "@/components/animations/Loader.vue";
 import Sidebar from "@/views/partials/Sidebar.vue";
+import Footer from "@/views/partials/Footer.vue";
 
 const userStore = useUserStore();
 </script>
