@@ -42,16 +42,8 @@
               </div>
               <div>
                 <h5 class="font-semibold">Actions:</h5>
-                <button v-if="roster.home" type="button" class="btn bg-blue-400 text-white font-bold py-1 px-2 rounded">
-                  <i class="fas fa-share mr-2"></i>Transfer
-                </button>
-                <button
-                  v-else-if="roster.visiting"
-                  type="button"
-                  class="btn bg-red-400 text-white font-bold py-1 px-2 rounded"
-                >
-                  <i class="fas fa-xmark mr-2"></i>Leave
-                </button>
+                <Secondary v-if="roster.home" text="Transfer" icon="share" color="red" />
+                <Secondary v-else-if="roster.visiting" text="Leave" icon="xmark" color="blue" />
               </div>
             </div>
           </div>
@@ -63,13 +55,14 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import useFacilityStore from "@/stores/facility.ts";
-import useUserStore from "@/stores/user.ts";
+import useFacilityStore from "@/stores/facility";
+import useUserStore from "@/stores/user";
 
 // Components
 import Page from "@/components/Page.vue";
 import Card from "@/components/Card.vue";
 import Spinner from "@/components/animations/Spinner.vue";
+import Secondary from "@/components/buttons/Secondary.vue";
 
 const facilityStore = useFacilityStore();
 const userStore = useUserStore();

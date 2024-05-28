@@ -23,7 +23,7 @@
             <Notifications />
           </div>
           <div v-else-if="selectedTab == 2" key="2">
-            <Discord />
+            <Discord :user="userStore.user" />
           </div>
         </transition>
       </div>

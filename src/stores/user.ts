@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { API } from "@/utils/api";
 import { User } from "@/types";
 import { getControllerRating, getPilotRating } from "@/utils/rating";
+import { notify } from "notiwind";
 
 interface UserState {
   user: User | null;
@@ -46,6 +47,14 @@ const useUserStore = defineStore({
       } finally {
         this.fetching = false;
         this.hasFetched = true;
+        notify(
+          {
+            group: "br",
+            title: "Login Successful",
+            text: "Welcome back to VATUSA!",
+          },
+          4000
+        );
       }
     },
     async fetchRosters(): Promise<void> {
