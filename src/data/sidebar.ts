@@ -6,13 +6,18 @@ const SidebarLinks: Link[] = [
     icon: "fa-solid fa-home",
     to: { name: "Home" },
   },
-  // {
-  //   title: "My Flights",
-  //   icon: "fa-solid fa-plane",
-  //   to: { name: "MyFlights" },
-  //   separator: true,
-  //   separatorTitle: "Pilots",
-  // },
+  {
+    title: "My Flights",
+    icon: "fa-solid fa-plane",
+    // to: { name: "My Flights" },
+    separator: true,
+    separatorTitle: "Pilots",
+  },
+  {
+    title: "Leave Feedback",
+    icon: "fa-solid fa-check-to-slot",
+    to: { name: "Leave Feedback" },
+  },
   {
     title: "Facility",
     icon: "fa-solid fa-hippo",
@@ -20,31 +25,24 @@ const SidebarLinks: Link[] = [
     separator: true,
     separatorTitle: "Controllers",
   },
-  // {
-  //   title: "Leave Feedback",
-  //   icon: "fa-solid fa-plane",
-  //   to: { name: "Controller-Feedback" },
-  // },
-  // {
-  //   title: "My Feedback",
-  //   icon: "fa-solid fa-plane",
-  //   to: { name: "Pilot-Feedback" },
-  //   separator: true,
-  //   separatorTitle: "Controllers",
-  // },
+  {
+    title: "My Feedback",
+    icon: "fa-solid fa-star",
+    to: { name: "My Feedback" },
+  },
   {
     title: "Training",
-    icon: "fa-solid fa-plane",
+    icon: "fa-solid fa-chalkboard-user",
     subLinks: [
       {
         title: "Book a Session",
-        icon: "fa-solid fa-plane",
+        icon: "fa-solid fa-calendar",
         // to: { name: "Training-Scheduler" },
         to: { name: "Home" },
       },
       {
         title: "My Training Notes",
-        icon: "fa-solid fa-plane",
+        icon: "fa-solid fa-book",
         // to: { name: "Training-Notes" },
         to: { name: "Home" },
       },

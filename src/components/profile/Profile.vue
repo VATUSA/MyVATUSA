@@ -4,67 +4,34 @@
   </div>
   <div class="m-5">
     <div v-if="!!editableUser" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
-      <div class="col-span-1 flex flex-col">
-        <p class="font-bold text-gray-600 text-sm">First name</p>
-        <input
-          v-model="editableUser.first_name"
-          class="my-1 py-1 border-b hover:border-b-usa-blue outline-0 focus:border-transparent focus:ring-0 bg-transparent"
-          placeholder="John"
-          disabled
-        />
-      </div>
-      <div class="col-span-1 flex flex-col">
-        <p class="font-bold text-gray-600 text-sm">Last name</p>
-        <input
-          v-model="editableUser.last_name"
-          class="my-1 py-1 border-b hover:border-b-usa-blue outline-0 focus:border-transparent focus:ring-0 bg-transparent"
-          placeholder="Doe"
-          disabled
-        />
-      </div>
-      <div class="col-span-1 md:col-span-2 flex flex-col">
-        <p class="font-bold text-gray-600 text-sm">Email</p>
-        <input
-          v-model="editableUser.email"
-          class="my-1 py-1 border-b hover:border-b-usa-blue outline-0 focus:border-transparent focus:ring-0 bg-transparent"
-          placeholder="John@johnrocks.com"
-          disabled
-        />
-      </div>
-      <div class="col-span-1 flex flex-col">
-        <p class="font-bold text-gray-600 text-sm">Preferred Name</p>
-        <input
-          v-model="editableUser.preferred_name"
-          class="my-1 py-1 border-b hover:border-b-usa-blue outline-0 focus:border-transparent focus:ring-0 bg-transparent"
-          placeholder="Johnny"
-        />
-      </div>
-      <div class="col-span-1 flex flex-col">
-        <p class="font-bold text-gray-600 text-sm">Preferred OIs</p>
-        <input
-          v-model="editableUser.preferred_ois"
-          class="my-1 py-1 border-b hover:border-b-usa-blue outline-0 focus:border-transparent focus:ring-0 bg-transparent"
-          placeholder="JD"
-        />
-      </div>
-      <div class="col-span-1 flex flex-col">
-        <p class="font-bold text-gray-600 text-sm">Pilot Rating</p>
-        <input
-          v-model="editableUser.pilot_rating_string"
-          class="my-1 py-1 border-b hover:border-b-usa-blue outline-0 focus:border-transparent focus:ring-0 bg-transparent"
-          placeholder="1"
-          disabled
-        />
-      </div>
-      <div class="col-span-1 flex flex-col">
-        <p class="font-bold text-gray-600 text-sm">Controller Rating</p>
-        <input
-          v-model="editableUser.controller_rating_string"
-          class="my-1 py-1 border-b hover:border-b-usa-blue outline-0 focus:border-transparent focus:ring-0 bg-transparent"
-          placeholder="S1"
-          disabled
-        />
-      </div>
+      <TextInput title="First Name" placeholder="John" :initial-value="editableUser.first_name" disabled />
+      <TextInput title="Last Name" placeholder="Doe" :initial-value="editableUser.last_name" disabled />
+      <TextInput
+        title="Email"
+        placeholder="John@johnrocks.com"
+        :initial-value="editableUser.email"
+        cols="col-span-1 md:col-span-2"
+        disabled
+      />
+      <TextInput
+        title="Preferred Name"
+        placeholder="Johnny"
+        :initial-value="editableUser.preferred_name"
+        @new-value="(value) => handleNewValue('preferred_name', value)"
+      />
+      <TextInput
+        title="Preferred OIs"
+        placeholder="JD"
+        :initial-value="editableUser.preferred_ois"
+        @new-value="(value) => handleNewValue('preferred_ois', value)"
+      />
+      <TextInput title="Pilot Rating" placeholder="PPL" :initial-value="editableUser.pilot_rating_string" disabled />
+      <TextInput
+        title="Controller Rating"
+        placeholder="OBS"
+        :initial-value="editableUser.controller_rating_string"
+        disabled
+      />
     </div>
   </div>
   <div class="mt-20 border-b">
@@ -103,12 +70,17 @@
 import { ref } from "vue";
 
 import { User } from "@/types";
+import TextInput from "@/components/input/TextInput.vue";
 
 const props = defineProps<{
   user: User | null;
 }>();
 
 const editableUser = ref<User | null>(props.user);
+
+function handleNewValue(field: string, value: string): void {
+  console.log(field, value);
+}
 </script>
 
 <style scoped></style>

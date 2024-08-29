@@ -45,7 +45,7 @@ import Profile from "@/components/profile/Profile.vue";
 
 const userStore = useUserStore();
 
-const tabs = ref<string[]>(["Profile", "Notifications", "Discord"]);
+const tabs = ref<string[]>(["Profile", "Notifications", "Discord", "Action Log"]);
 
 const selectedTab = ref<number>(0);
 const changeTab = (tab: number): void => {

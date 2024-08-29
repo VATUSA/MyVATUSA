@@ -47,14 +47,17 @@ const useUserStore = defineStore({
       } finally {
         this.fetching = false;
         this.hasFetched = true;
-        notify(
-          {
-            group: "br",
-            title: "Login Successful",
-            text: "Welcome back to VATUSA!",
-          },
-          4000
-        );
+
+        if (this.isLoggedIn) {
+          notify(
+            {
+              group: "br-success",
+              title: "Login Successful",
+              text: "Welcome back to VATUSA!",
+            },
+            4000
+          );
+        }
       }
     },
     async fetchRosters(): Promise<void> {
@@ -78,7 +81,14 @@ const useUserStore = defineStore({
         window.location.href = "https://vatusa.net";
       } catch (e) {
         // TODO - throw error notification
-        console.log(e);
+        notify(
+          {
+            group: "br-error",
+            title: "Logout Failed",
+            text: "An error occurred while logging out.",
+          },
+          4000
+        );
       } finally {
         this.fetching = false;
       }

@@ -21,7 +21,23 @@ const routes = [
   {
     path: "/facility",
     name: "Facility",
-    component: () => import("@/views/Facility.vue"),
+    component: () => import("@/views/controllers/Facility.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/leave-feedback",
+    name: "Leave Feedback",
+    component: () => import("@/views/pilots/LeaveFeedback.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/feedback",
+    name: "My Feedback",
+    component: () => import("@/views/controllers/MyFeedback.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -75,6 +91,7 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
   if (!userStore.hasFetched) {
     if (userStore.loading === null || userStore.loading === undefined) {
+      console.log("fetching user");
       userStore.loading = userStore.fetchUser();
     }
     userStore.loading.then(() => {

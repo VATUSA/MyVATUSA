@@ -41,6 +41,18 @@ export interface User {
   rosters?: Roster[];
 }
 
+export interface Feedback {
+  id: number;
+  controller_cid: number;
+  facility: string;
+  position: number;
+  comment: string;
+  notes: string;
+  rating: string;
+  status: string;
+  created_at: string;
+}
+
 export interface Roster {
   id: number;
   cid: number;
