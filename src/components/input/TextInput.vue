@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 import FadeIn from "@/components/animations/FadeIn.vue";
 
@@ -67,7 +67,6 @@ const id = ref<string>((Math.random() + 1).toString(36).substring(7));
 const isFocused = ref<Boolean>(false);
 
 const field = ref<string>(props.initialValue);
-const temp = ref<string>(props.initialValue);
 
 function handleBlur(event): void {
   const relatedTarget = event.relatedTarget;
@@ -79,22 +78,29 @@ function handleBlur(event): void {
 
 const cancel = (): void => {
   document.getElementById(id.value).blur();
-  field.value = temp.value;
+  field.value = props.initialValue;
   isFocused.value = false;
 };
 
 const save = (): void => {
   document.getElementById(id.value).blur();
-  if (field.value === temp.value) {
+  if (field.value === props.initialValue) {
     isFocused.value = false;
     return;
   }
 
-  temp.value = field.value;
   isFocused.value = false;
 
   emit("newValue", field.value);
 };
+
+// Watch prop intialValue
+watch(
+  () => props.initialValue,
+  (newValue) => {
+    field.value = newValue;
+  }
+);
 </script>
 
 <style scoped></style>

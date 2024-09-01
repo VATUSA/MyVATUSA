@@ -24,6 +24,7 @@ const useUserStore = defineStore({
       hasFetchedRosters: false,
     }) as UserState,
   getters: {
+    self: (state) => state.user,
     isLoggedIn: (state) => !!state.user,
     fullName: (state) => {
       if (!state.user) return "";
@@ -58,6 +59,37 @@ const useUserStore = defineStore({
             4000
           );
         }
+      }
+    },
+    async patchUser(cid, body): Promise<void> {
+      try {
+        const { data } = await API.patch(`/v3/user/${cid}`, body);
+        const storeRoster = this.user?.rosters;
+        this.user = data;
+        this.user.rosters = storeRoster;
+        if (this.user?.controller_rating) {
+          this.user.controller_rating_string = getControllerRating(this.user.controller_rating);
+        }
+        if (this.user?.pilot_rating) {
+          this.user.pilot_rating_string = getPilotRating(this.user.pilot_rating);
+        }
+        notify(
+          {
+            group: "br-success",
+            title: "User Updated",
+            text: "User information has been updated successfully.",
+          },
+          4000
+        );
+      } catch (e) {
+        notify(
+          {
+            group: "br-error",
+            title: "Error Updating User",
+            text: "An error occurred while trying to submit the request.",
+          },
+          4000
+        );
       }
     },
     async fetchRosters(): Promise<void> {

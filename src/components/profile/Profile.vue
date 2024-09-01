@@ -68,9 +68,12 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import useUserStore from "@/stores/user";
 
 import { User } from "@/types";
 import TextInput from "@/components/input/TextInput.vue";
+
+const userStore = useUserStore();
 
 const props = defineProps<{
   user: User | null;
@@ -78,8 +81,16 @@ const props = defineProps<{
 
 const editableUser = ref<User | null>(props.user);
 
-function handleNewValue(field: string, value: string): void {
-  console.log(field, value);
+async function handleNewValue(field: string, value: string): Promise<void> {
+  const body = {
+    [field]: value,
+  };
+
+  await userStore.patchUser(props.user?.cid, body);
+
+  if (editableUser.value) {
+    editableUser.value = props.user;
+  }
 }
 </script>
 

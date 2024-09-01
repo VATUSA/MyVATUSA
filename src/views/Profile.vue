@@ -17,7 +17,7 @@
       <div class="m-10">
         <transition mode="out-in">
           <div v-if="selectedTab == 0" key="0" class="">
-            <Profile :user="userStore.user" />
+            <Profile :user="userStore.self" />
           </div>
           <div v-else-if="selectedTab == 1" key="1">
             <Notifications />
