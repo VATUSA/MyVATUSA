@@ -50,7 +50,7 @@
                   {{ feedback.rating }}
                 </th>
                 <td class="px-6 py-4">
-                  {{ feedback.comment }}
+                  {{ feedback.feedback }}
                 </td>
                 <td class="px-6 py-4">{{ feedback.facility }} / {{ feedback.position }}</td>
               </tr>
@@ -65,6 +65,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from "vue";
 import useFeedbackStore from "@/stores/feedback";
+import useUserStore from "@/stores/user.ts";
 
 // Components
 import Page from "@/components/Page.vue";
@@ -72,6 +73,7 @@ import Card from "@/components/Card.vue";
 import Spinner from "@/components/animations/Spinner.vue";
 
 const feedbackStore = useFeedbackStore();
+const userStore = useUserStore();
 
 const search = ref<string>("");
 
@@ -114,7 +116,7 @@ const feedbackRating = computed(() => {
 
 onMounted(() => {
   if (!feedbackStore.hasFetched) {
-    feedbackStore.fetchFeedback(1293257);
+    feedbackStore.fetchFeedback(userStore.self.cid);
   }
 });
 </script>

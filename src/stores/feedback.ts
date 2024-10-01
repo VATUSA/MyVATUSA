@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { API } from "@/utils/api";
-import { Feedback } from "@/types";
+import { Feedback, FeedbackRequest } from "@/types";
 
 interface FeedbackState {
   myFeedback: Feedback;
@@ -32,6 +32,11 @@ const useFeedbackStore = defineStore({
         this.fetching = false;
         this.hasFetched = true;
       }
+    },
+    async submitFeedback(facility: string, feedback: FeedbackRequest): Promise<void> {
+      this.loading = API.post(`/v3/facility/${facility}/feedback`, feedback);
+      await this.loading;
+      this.loading = null;
     },
   },
 });

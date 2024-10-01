@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { API } from "@/utils/api";
-import { User } from "@/types";
+import { ActionLog, User } from "@/types";
 import { getControllerRating, getPilotRating } from "@/utils/rating";
 import { notify } from "notiwind";
 
@@ -101,6 +101,15 @@ const useUserStore = defineStore({
         this.user!.rosters = [];
       } finally {
         this.hasFetchedRosters = true;
+      }
+    },
+    async fetchActionLog(cid: number): Promise<ActionLog[]> {
+      try {
+        const { data } = await API.get(`/v3/user/${cid}/action-log`);
+        return data;
+      } catch (e) {
+        console.error(e);
+        return [];
       }
     },
     async logout(): Promise<void> {

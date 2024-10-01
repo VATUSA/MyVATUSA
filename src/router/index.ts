@@ -19,25 +19,32 @@ const routes = [
     },
   },
   {
-    path: "/facility",
-    name: "Facility",
-    component: () => import("@/views/controllers/Facility.vue"),
+    path: "/pilots",
+    children: [
+      {
+        path: "feedback",
+        name: "Leave Feedback",
+        component: () => import("@/views/pilots/LeaveFeedback.vue"),
+      },
+    ],
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/leave-feedback",
-    name: "Leave Feedback",
-    component: () => import("@/views/pilots/LeaveFeedback.vue"),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: "/feedback",
-    name: "My Feedback",
-    component: () => import("@/views/controllers/MyFeedback.vue"),
+    path: "/controllers",
+    children: [
+      {
+        path: "facility",
+        name: "Facility",
+        component: () => import("@/views/controllers/Facility.vue"),
+      },
+      {
+        path: "feedback",
+        name: "My Feedback",
+        component: () => import("@/views/controllers/MyFeedback.vue"),
+      },
+    ],
     meta: {
       requiresAuth: true,
     },

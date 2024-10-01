@@ -47,14 +47,27 @@ export interface Feedback {
   facility: string;
   position: number;
   comment: string;
-  notes: string;
+  feedback: string;
   rating: string;
   status: string;
   created_at: string;
 }
 
+export interface FeedbackRequest {
+  callsign: string;
+  controller_cid: number;
+  pilot_cid: number;
+  position: number;
+  comment: string;
+  feedback: string;
+  rating: string;
+  status: string;
+}
+
 export interface Roster {
   id: number;
+  first_name: string;
+  last_name: string;
   cid: number;
   facility: string;
   operating_initials: string;
@@ -77,4 +90,14 @@ export interface Facility {
   id: string;
   name: string;
   url: string;
+}
+
+export interface ActionLog {
+  id: number;
+  cid: number;
+  entry: string;
+  created_at: string;
+  created_by: string;
+  updated_at: string;
+  updated_by: string;
 }

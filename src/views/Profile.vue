@@ -25,6 +25,9 @@
           <div v-else-if="selectedTab == 2" key="2">
             <Discord :user="userStore.user" />
           </div>
+          <div v-else-if="selectedTab == 3" key="3">
+            <ActionLog :user="userStore.user" />
+          </div>
         </transition>
       </div>
     </Card>
@@ -42,6 +45,7 @@ import Discord from "@/components/profile/Discord.vue";
 import Notifications from "@/components/profile/Notifications.vue";
 import Page from "@/components/Page.vue";
 import Profile from "@/components/profile/Profile.vue";
+import ActionLog from "@/components/profile/ActionLog.vue";
 
 const userStore = useUserStore();
 
