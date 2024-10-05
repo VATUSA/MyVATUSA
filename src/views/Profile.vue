@@ -46,6 +46,7 @@ import Notifications from "@/components/profile/Notifications.vue";
 import Page from "@/components/Page.vue";
 import Profile from "@/components/profile/Profile.vue";
 import ActionLog from "@/components/profile/ActionLog.vue";
+import { notify } from "notiwind";
 
 const userStore = useUserStore();
 
@@ -60,9 +61,9 @@ const changeTab = (tab: number): void => {
 const route = useRoute();
 
 const currentHashTab = computed(() => {
-  const hash = route.hash.slice(1); // Remove leading "#"
+  const hash = route.hash.slice(1).split("?"); // Remove leading "#"
 
-  const val = tabs.value.findIndex((tab) => tab.toLowerCase() === hash);
+  const val = tabs.value.findIndex((tab) => tab.toLowerCase() === hash[0]);
 
   return val === -1 ? 0 : val;
 });
@@ -75,6 +76,19 @@ watch(currentHashTab, (newTab) => {
 onMounted(() => {
   selectedTab.value = currentHashTab.value;
   userStore.fetchRosters();
+
+  // Check if an account was just linked
+  const query = route.query;
+  if (query.name !== undefined) {
+    notify(
+      {
+        group: "br-success",
+        title: "Discord Linked",
+        text: `You have successfully linked your Discord account: ${query.name}!`,
+      },
+      4000
+    );
+  }
 });
 </script>
 

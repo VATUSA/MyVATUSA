@@ -148,7 +148,7 @@
 
         <div class="col-span-3 flex flex-col">
           <textarea
-            v-model="feedback.position"
+            v-model="feedback.feedback"
             class="order-2 peer my-1 py-1 border-b hover:border-b-usa-blue focus:border-b-usa-blue transition-all duration-300 outline-0 focus:ring-0 bg-transparent"
             style="outline: 0"
             placeholder="The best controlling service into Denver!"
@@ -157,6 +157,11 @@
           <p class="order-1 font-bold text-gray-600 text-sm peer-focus:text-usa-blue transition-all duration-300">
             Feedback
           </p>
+        </div>
+
+        <div class="my-auto mx-auto flex flex-col">
+          <Primary class="max-h-12 max-w-24 my-auto mx-auto" text="Submit" color="usa-red" @click="submitFeedback" />
+          <p v-if="errorMsg != ''" class="text-usa-red">{{ errorMsg }}</p>
         </div>
       </div>
     </Card>
@@ -174,8 +179,7 @@ import useFacilityStore from "@/stores/facility";
 // Components
 import Page from "@/components/Page.vue";
 import Card from "@/components/Card.vue";
-import TextInput from "@/components/input/TextInput.vue";
-import FadeIn from "@/components/animations/FadeIn.vue";
+import Primary from "@/components/buttons/Primary.vue";
 
 const feedbackStore = useFeedbackStore();
 const userStore = useUserStore();
@@ -186,6 +190,8 @@ const feedback = ref<FeedbackRequest>({
   comment: "",
   status: "pending",
 });
+
+const errorMsg = ref<string>("");
 
 // Facility List
 const facility = ref<string>("");
@@ -269,6 +275,31 @@ const isValidRating = computed(() => {
 });
 
 const submitFeedback = (): void => {
+  if (!isValidRating.value) {
+    errorMsg.value = "Please select a valid rating.";
+    return;
+  }
+  if (!isValidFacility.value) {
+    errorMsg.value = "Please select a valid facility.";
+    return;
+  }
+  if (!isValidController.value) {
+    errorMsg.value = "Please select a valid controller.";
+    return;
+  }
+  if (feedback.value.feedback === "") {
+    errorMsg.value = "Please provide feedback.";
+    return;
+  }
+  if (feedback.value.callsign === "") {
+    errorMsg.value = "Please provide a callsign.";
+    return;
+  }
+  if (feedback.value.position === "") {
+    errorMsg.value = "Please provide a position.";
+    return;
+  }
+
   feedbackStore.submitFeedback(facility, feedback);
 };
 

@@ -56,6 +56,7 @@
               </tr>
             </tbody>
           </table>
+          <h3 v-if="filteredFeedback.length === 0" class="text-center text-xl font-semibold m-5">No Feedback Found</h3>
         </div>
       </div>
     </Card>
@@ -65,7 +66,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from "vue";
 import useFeedbackStore from "@/stores/feedback";
-import useUserStore from "@/stores/user.ts";
+import useUserStore from "@/stores/user";
 
 // Components
 import Page from "@/components/Page.vue";

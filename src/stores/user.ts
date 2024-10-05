@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { API } from "@/utils/api";
-import { ActionLog, User } from "@/types";
+import { ActionLog, NotificationSettings, User } from "@/types";
 import { getControllerRating, getPilotRating } from "@/utils/rating";
 import { notify } from "notiwind";
 
@@ -110,6 +110,63 @@ const useUserStore = defineStore({
       } catch (e) {
         console.error(e);
         return [];
+      }
+    },
+    async fetchNotificationSettings(cid: number): Promise<NotificationSettings> {
+      try {
+        const { data } = await API.get(`/v3/user/${cid}/notification-settings`);
+        return data;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    },
+    async updateNotificationSettings(cid: number, updatedSettings: NotificationSettings): Promise<null> {
+      try {
+        const data = await API.put(`/v3/user/${cid}/notification-settings`, updatedSettings);
+        if (data.status === 200) {
+          return null;
+        }
+        notify(
+          {
+            group: "br-error",
+            title: "Operation Failed",
+            text: "An error occurred while trying to update the notification settings.",
+          },
+          4000
+        );
+        return null;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    },
+    async unlinkDiscord(): Promise<null> {
+      try {
+        const data = await API.get(`/v3/user/discord/unlink`);
+        if (data.status === 200) {
+          notify(
+            {
+              group: "br-success",
+              title: "Discord Unlinked",
+              text: "Your Discord account has been unlinked successfully.",
+            },
+            4000
+          );
+          this.user!.discord_id = null;
+        }
+        return null;
+      } catch (e) {
+        notify(
+          {
+            group: "br-error",
+            title: "Operation Failed",
+            text: "An error occurred while trying to unlink your Discord account.",
+          },
+          4000
+        );
+        console.error(e);
+        return null;
       }
     },
     async logout(): Promise<void> {

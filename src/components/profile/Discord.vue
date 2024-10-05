@@ -17,9 +17,9 @@
       <div class="col-span-2 flex flex-col">
         <p class="font-bold text-gray-600 text-sm">Actions</p>
         <div class="flex gap-x-4 m-2">
-          <Secondary v-if="editableUser.discord_id === ''" text="Link" icon="link" color="green" />
-          <Secondary v-else text="Unlink" icon="unlink" color="red" />
-          <Secondary text="Sync" icon="sync" color="blue" />
+          <Secondary v-if="editableUser.discord_id.length === 0" text="Link" icon="link" color="green" @click="link" />
+          <Secondary v-else text="Unlink" icon="unlink" color="red" @click="unlink" />
+          <!--          <Secondary text="Sync" icon="sync" color="blue" />-->
         </div>
       </div>
     </div>
@@ -28,15 +28,27 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import useUserStore from "@/stores/user";
 
 import { User } from "@/types";
 import Secondary from "@/components/buttons/Secondary.vue";
+import apiUrl from "@/utils/api";
 
+const userStore = useUserStore();
 const props = defineProps<{
   user: User | null;
 }>();
 
 const editableUser = ref<User | null>(props.user);
+
+const link = (): null => {
+  window.location.href = `${apiUrl}/v3/user/discord?redirect=${window.location.href}`;
+};
+
+const unlink = (): null => {
+  userStore.unlinkDiscord();
+  editableUser.value = { ...editableUser.value, discord_id: "" };
+};
 </script>
 
 <style scoped></style>

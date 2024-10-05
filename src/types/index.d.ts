@@ -57,7 +57,7 @@ export interface FeedbackRequest {
   callsign: string;
   controller_cid: number;
   pilot_cid: number;
-  position: number;
+  position: string;
   comment: string;
   feedback: string;
   rating: string;
@@ -100,4 +100,12 @@ export interface ActionLog {
   created_by: string;
   updated_at: string;
   updated_by: string;
+}
+
+export interface NotificationSettings {
+  discord: boolean;
+  email: boolean;
+  events: boolean;
+  feedback: boolean;
+  training: boolean;
 }
