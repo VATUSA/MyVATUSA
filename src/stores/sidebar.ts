@@ -33,9 +33,7 @@ const useSidebarStore = defineStore({
           return acc;
         }, {});
 
-        facilityRolesMap.ZDV = ["ATM"];
-
-        for (const facility in facilityRolesMap) {
+        Object.keys(facilityRolesMap).forEach((facility: string) => {
           // If ZHQ
           if (facility === "ZHQ") {
             this.sidebar.push({
@@ -109,7 +107,7 @@ const useSidebarStore = defineStore({
             temp[0].separatorTitle = facility;
             this.sidebar.push(...temp);
           }
-        }
+        });
       }
     },
   },
