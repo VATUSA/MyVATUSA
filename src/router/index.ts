@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, NavigationGuard, Router } from "vue-router";
 import useUserStore from "@/stores/user";
 import apiUrl from "@/utils/api";
+import useSidebarStore from "@/stores/sidebar";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -14,6 +15,14 @@ const routes = [
     path: "/",
     name: "Home",
     component: () => import("@/views/Home.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/events/:facility_id/:id",
+    name: "Event",
+    component: () => import("@/views/Event.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -42,6 +51,49 @@ const routes = [
       {
         path: "feedback",
         name: "My Feedback",
+        component: () => import("@/views/controllers/MyFeedback.vue"),
+      },
+    ],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/:facility_id",
+    children: [
+      {
+        path: "management",
+        name: "Management",
+        component: () => import("@/views/controllers/Facility.vue"),
+      },
+      {
+        path: "roster",
+        name: "Roster",
+        component: () => import("@/views/facility/Roster.vue"),
+      },
+      {
+        path: "engineering",
+        name: "Engineering",
+        component: () => import("@/views/controllers/MyFeedback.vue"),
+      },
+      {
+        path: "web-config",
+        name: "Web Config",
+        component: () => import("@/views/controllers/MyFeedback.vue"),
+      },
+      {
+        path: "events",
+        name: "ARTCC Events",
+        component: () => import("@/views/controllers/MyFeedback.vue"),
+      },
+      {
+        path: "training/notes",
+        name: "Training Notes",
+        component: () => import("@/views/controllers/MyFeedback.vue"),
+      },
+      {
+        path: "training/calendar",
+        name: "Training Calendar",
         component: () => import("@/views/controllers/MyFeedback.vue"),
       },
     ],
@@ -94,12 +146,15 @@ const check: NavigationGuard = (to, from, next): void => {
   next();
 };
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
+  const sidebarStore = useSidebarStore();
   if (!userStore.hasFetched) {
     if (userStore.loading === null || userStore.loading === undefined) {
       console.log("fetching user");
       userStore.loading = userStore.fetchUser();
+      await userStore.loading;
+      sidebarStore.updateSidebar(userStore.roles!);
     }
     userStore.loading.then(() => {
       check(to, from, next);

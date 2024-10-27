@@ -117,7 +117,7 @@ const feedbackRating = computed(() => {
 
 onMounted(() => {
   if (!feedbackStore.hasFetched) {
-    feedbackStore.fetchFeedback(userStore.self.cid);
+    feedbackStore.fetchFeedback(userStore.self!.cid);
   }
 });
 </script>

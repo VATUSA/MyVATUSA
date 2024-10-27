@@ -186,6 +186,11 @@ const userStore = useUserStore();
 const facilityStore = useFacilityStore();
 
 const feedback = ref<FeedbackRequest>({
+  callsign: "",
+  controller_cid: 0,
+  feedback: "",
+  position: "",
+  rating: "",
   pilot_cid: userStore.self.cid,
   comment: "",
   status: "pending",
@@ -221,7 +226,7 @@ const closeFacilityDropdown = (): void => {
 
 // Controller List
 const controllerDropdown = ref<boolean>(false);
-const controllerList = ref<Roster>([]);
+const controllerList = ref<Roster[]>([]);
 
 watchEffect(() => {
   if (!isValidFacility.value) {
@@ -300,7 +305,7 @@ const submitFeedback = (): void => {
     return;
   }
 
-  feedbackStore.submitFeedback(facility, feedback);
+  feedbackStore.submitFeedback(facility.value, feedback.value);
 };
 
 onMounted(() => {

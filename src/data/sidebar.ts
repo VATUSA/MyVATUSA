@@ -7,9 +7,14 @@ const SidebarLinks: Link[] = [
     to: { name: "Home" },
   },
   {
+    title: "My Profile",
+    icon: "fa-solid fa-user",
+    to: { name: "Profile" },
+  },
+  {
     title: "My Flights",
     icon: "fa-solid fa-plane",
-    // to: { name: "My Flights" },
+    to: { name: "Home" },
     separator: true,
     separatorTitle: "Pilots",
   },
@@ -77,11 +82,6 @@ const SidebarLinks: Link[] = [
   //   to: { name: "Support" },
   //   separator: true,
   // },
-  {
-    title: "My Profile",
-    icon: "fa-solid fa-user",
-    to: { name: "Profile" },
-  },
 ];
 
 export default SidebarLinks;

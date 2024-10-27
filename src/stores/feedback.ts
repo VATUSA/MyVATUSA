@@ -3,7 +3,7 @@ import { API } from "@/utils/api";
 import { Feedback, FeedbackRequest } from "@/types";
 
 interface FeedbackState {
-  myFeedback: Feedback;
+  myFeedback: Feedback[];
   error: string | null;
   fetching: boolean;
   hasFetched: boolean;
@@ -18,6 +18,7 @@ const useFeedbackStore = defineStore({
       error: null,
       fetching: false,
       hasFetched: false,
+      loading: null,
     }) as FeedbackState,
   getters: {},
   actions: {

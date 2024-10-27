@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import { API } from "@/utils/api";
-import { ActionLog, NotificationSettings, User } from "@/types";
+import { ActionLog, NotificationSettings, User, Role } from "@/types";
 import { getControllerRating, getPilotRating } from "@/utils/rating";
 import { notify } from "notiwind";
 
 interface UserState {
   user: User | null;
+  roles: Role[] | null;
   error: string | null;
   fetching: boolean;
   hasFetched: boolean;
@@ -49,6 +50,9 @@ const useUserStore = defineStore({
         this.fetching = false;
         this.hasFetched = true;
 
+        await this.fetchRoles();
+        await this.fetchRosters();
+
         if (this.isLoggedIn) {
           notify(
             {
@@ -61,16 +65,14 @@ const useUserStore = defineStore({
         }
       }
     },
-    async patchUser(cid, body): Promise<void> {
+    async patchUser(cid: number, body: { [p: string]: string }): Promise<void> {
       try {
         const { data } = await API.patch(`/v3/user/${cid}`, body);
         const storeRoster = this.user?.rosters;
         this.user = data;
-        this.user.rosters = storeRoster;
-        if (this.user?.controller_rating) {
+        if (this.user) {
+          this.user.rosters = storeRoster;
           this.user.controller_rating_string = getControllerRating(this.user.controller_rating);
-        }
-        if (this.user?.pilot_rating) {
           this.user.pilot_rating_string = getPilotRating(this.user.pilot_rating);
         }
         notify(
@@ -90,6 +92,15 @@ const useUserStore = defineStore({
           },
           4000
         );
+      }
+    },
+    async fetchRoles(): Promise<void> {
+      if (!this.isLoggedIn) return;
+      try {
+        const { data } = await API.get(`/v3/user/${this.user?.cid}/roles`);
+        this.roles = data;
+      } catch (e) {
+        this.roles = [];
       }
     },
     async fetchRosters(): Promise<void> {
@@ -112,7 +123,7 @@ const useUserStore = defineStore({
         return [];
       }
     },
-    async fetchNotificationSettings(cid: number): Promise<NotificationSettings> {
+    async fetchNotificationSettings(cid: number): Promise<NotificationSettings | null> {
       try {
         const { data } = await API.get(`/v3/user/${cid}/notification-settings`);
         return data;
@@ -153,7 +164,9 @@ const useUserStore = defineStore({
             },
             4000
           );
-          this.user!.discord_id = null;
+          if (this.user) {
+            this.user.discord_id = "";
+          }
         }
         return null;
       } catch (e) {

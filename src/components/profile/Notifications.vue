@@ -102,14 +102,23 @@ import Primary from "@/components/buttons/Primary.vue";
 import Spinner from "@/components/animations/Spinner.vue";
 
 const userStore = useUserStore();
-const settings = ref<NotificationSettings | null>();
-
-onMounted(async () => {
-  settings.value = await userStore.fetchNotificationSettings(userStore.self.cid);
+const settings = ref<NotificationSettings>({
+  discord: false,
+  training: false,
+  events: false,
+  feedback: false,
+  email: false,
 });
 
-function updateSettings(): null {
-  userStore.updateNotificationSettings(userStore.self.cid, settings.value);
+onMounted(async () => {
+  const resp = await userStore.fetchNotificationSettings(userStore.self!.cid);
+  if (resp) {
+    settings.value = resp;
+  }
+});
+
+function updateSettings(): void {
+  userStore.updateNotificationSettings(userStore.self!.cid, settings.value);
 }
 
 function setDiscord(state: boolean): void {

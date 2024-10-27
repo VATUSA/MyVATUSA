@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { API } from "@/utils/api";
-import { Facility, Roster } from "@/types";
+import { Facility, Roster, RosterRequest } from "@/types";
 
 interface FacilityState {
   facilities: Facility[];
@@ -18,6 +18,7 @@ const useFacilityStore = defineStore({
       error: null,
       fetching: false,
       hasFetched: false,
+      loading: null,
     }) as FacilityState,
   getters: {
     getFacility: (state) => (id: string) => {
@@ -42,6 +43,19 @@ const useFacilityStore = defineStore({
       this.fetching = true;
       try {
         const { data } = await API.get(`/v3/facility/${facility}/roster`);
+        return data;
+      } catch (e) {
+        return [];
+      } finally {
+        this.fetching = false;
+      }
+    },
+    async fetchRosterRequests(facility: string, status: string): Promise<RosterRequest[]> {
+      this.fetching = true;
+      try {
+        const { data } = await API.get(`/v3/facility/${facility}/roster-request`, {
+          params: { status },
+        });
         return data;
       } catch (e) {
         return [];

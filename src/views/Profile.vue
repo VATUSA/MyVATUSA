@@ -75,7 +75,7 @@ watch(currentHashTab, (newTab) => {
 // Initial check on component mount
 onMounted(() => {
   selectedTab.value = currentHashTab.value;
-  userStore.fetchRosters();
+  if (!userStore.hasFetchedRosters) userStore.fetchRosters();
 
   // Check if an account was just linked
   const query = route.query;

@@ -9,6 +9,7 @@
       Any and all content on this website are for use with the Virtual Air Traffic Simulation Network (VATSIM) and may
       not be used for real-world navigation or aviation purposes and doing so could be a violation of federal law.
     </p>
+    <p>All times on the website unless otherwise noted with "Z" are in your local time.</p>
     <p>© 2016-{{ new Date().getFullYear() }} VATUSA Inc. | 501(c)(3) Nonprofit Organization | All Rights Reserved.</p>
   </div>
 </template>

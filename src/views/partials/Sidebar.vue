@@ -21,31 +21,39 @@
           <h2>{{ link.title }}</h2>
         </div>
         <button v-if="link.subLinks" @click="toggleSubLink(link.title)">
-          <i :class="showSubLinks.includes(link.title) ? 'fas fa-chevron-down' : 'fas fa-chevron-up'"></i>
+          <span v-show="showSubLinks.includes(link.title)"><i class="fas fa-chevron-down"></i></span>
+          <span v-show="!showSubLinks.includes(link.title)"><i class="fas fa-chevron-up"></i></span>
         </button>
       </router-link>
-      <div
-        v-else
-        class="flex rounded p-3 hover:bg-white text-usa-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5"
-        active-class="bg-white bg-opacity-10 font-bold text-usa-red"
-      >
-        <div class="flex items-center gap-x-4">
-          <span class="w-4 mx-auto text-center">
-            <i :class="link.icon"></i>
-          </span>
-          <h2>{{ link.title }}</h2>
-        </div>
-        <button v-if="link.subLinks" @click="toggleSubLink(link.title)">
-          <i :class="showSubLinks.includes(link.title) ? 'fas fa-chevron-down' : 'fas fa-chevron-up'"></i>
+      <div v-else>
+        <button
+          v-if="link.subLinks"
+          class="flex rounded p-3 hover:bg-white text-usa-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5 w-full"
+          active-class="bg-white bg-opacity-10 font-bold text-usa-red"
+          @click="toggleSubLink(link.title)"
+        >
+          <div class="flex items-center gap-x-4">
+            <span class="w-4 mx-auto text-center">
+              <i :class="link.icon"></i>
+            </span>
+            <h2>{{ link.title }}</h2>
+          </div>
+          <span v-show="showSubLinks.includes(link.title)"><i class="fas fa-chevron-down"></i></span>
+          <span v-show="!showSubLinks.includes(link.title)"><i class="fas fa-chevron-up"></i></span>
         </button>
       </div>
       <div v-if="showSubLinks.includes(link.title)">
         <div
           v-for="(subLink, index) in link.subLinks"
           :key="index"
-          class="flex rounded p-2 hover:bg-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between text-usa-white px-10"
+          class="pl-8 flex rounded p-2 hover:bg-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between text-usa-white"
         >
-          <h2>{{ subLink.title }}</h2>
+          <div class="flex items-center gap-x-4">
+            <span class="w-4 mx-auto text-center">
+              <i :class="subLink.icon"></i>
+            </span>
+            <h2>{{ subLink.title }}</h2>
+          </div>
         </div>
       </div>
     </div>
