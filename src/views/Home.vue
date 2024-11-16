@@ -24,7 +24,13 @@
                       {{ event.title }} <span class="font-normal">({{ event.fields.toString() }})</span>
                     </p>
                     <p class="text-gray-700">
-                      {{ new Date(event.start_date).toLocaleDateString() }}
+                      {{
+                        new Date(event.start_date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })
+                      }}
                       {{ new Date(event.start_date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }}
                       -
                       {{ new Date(event.end_date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }}
@@ -33,6 +39,7 @@
                   <hr class="w-[15%] bg-usa-red h-0.5" />
                 </router-link>
               </button>
+              <p v-if="eventStore.upcoming_events.length === 0" class="text-gray-700 font-semibold">None Found.</p>
             </div>
           </div>
           <div class="pt-5 px-4">

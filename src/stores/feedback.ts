@@ -39,6 +39,10 @@ const useFeedbackStore = defineStore({
       await this.loading;
       this.loading = null;
     },
+    async fetchFeedbackForFacility(facility: string): Promise<Feedback[]> {
+      const { data } = await API.get(`/v3/facility/${facility}/feedback`);
+      return data;
+    },
   },
 });
 

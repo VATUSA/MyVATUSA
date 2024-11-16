@@ -32,6 +32,14 @@ const useEventStore = defineStore({
         this.fetching = false;
       }
     },
+    async fetchPreviousEvents(facility: string): Promise<Event[]> {
+      try {
+        const { data } = await API.get(`/v3/facility/${facility}/events/previous`);
+        return data;
+      } catch (e) {
+        return [];
+      }
+    },
     async fetchEvents(facility: string): Promise<Event[]> {
       try {
         const { data } = await API.get(`/v3/facility/${facility}/events`);

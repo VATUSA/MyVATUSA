@@ -64,37 +64,82 @@ const routes = [
       {
         path: "management",
         name: "Management",
-        component: () => import("@/views/controllers/Facility.vue"),
+        component: () => import("@/views/facility/Management.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA"],
+        },
       },
       {
         path: "roster",
         name: "Roster",
         component: () => import("@/views/facility/Roster.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA"],
+        },
+      },
+      {
+        path: "feedback",
+        name: "Feedback",
+        component: () => import("@/views/facility/Feedback.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA"],
+        },
       },
       {
         path: "engineering",
         name: "Engineering",
-        component: () => import("@/views/controllers/MyFeedback.vue"),
+        component: () => import("@/views/facility/Engineering.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA", "FE", "AFE"],
+        },
       },
       {
         path: "web-config",
         name: "Web Config",
-        component: () => import("@/views/controllers/MyFeedback.vue"),
+        component: () => import("@/views/facility/WebConfig.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA", "WM", "AWM"],
+        },
       },
       {
         path: "events",
         name: "ARTCC Events",
-        component: () => import("@/views/controllers/MyFeedback.vue"),
+        component: () => import("@/views/facility/Events.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA", "EC", "AEC"],
+        },
       },
       {
         path: "training/notes",
         name: "Training Notes",
-        component: () => import("@/views/controllers/MyFeedback.vue"),
+        component: () => import("@/views/facility/Engineering.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA", "MTR", "INS"],
+        },
       },
       {
         path: "training/calendar",
         name: "Training Calendar",
-        component: () => import("@/views/controllers/MyFeedback.vue"),
+        component: () => import("@/views/facility/Engineering.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA", "MTR", "INS"],
+        },
+      },
+    ],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/mgmt/",
+    children: [
+      {
+        path: "user/:cid",
+        name: "User",
+        component: () => import("@/views/management/User.vue"),
+        meta: {
+          requiresRole: ["ATM", "DATM", "TA"],
+        },
       },
     ],
     meta: {
@@ -151,10 +196,11 @@ router.beforeEach(async (to, from, next) => {
   const sidebarStore = useSidebarStore();
   if (!userStore.hasFetched) {
     if (userStore.loading === null || userStore.loading === undefined) {
-      console.log("fetching user");
-      userStore.loading = userStore.fetchUser();
+      userStore.loading = userStore.fetchSelf();
       await userStore.loading;
-      sidebarStore.updateSidebar(userStore.roles!);
+      if (userStore.roles) {
+        sidebarStore.updateSidebar(userStore.roles);
+      }
     }
     userStore.loading.then(() => {
       check(to, from, next);

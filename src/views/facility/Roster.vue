@@ -36,17 +36,25 @@
                   {{ new Date(rosterReq.created_at).toLocaleDateString() }}
                 </td>
                 <td class="px-6 py-1 space-x-4">
-                  <button class="bg-emerald-500 text-white w-8 h-8 rounded hover:bg-opacity-80">
+                  <button
+                    class="bg-emerald-500 text-white w-8 h-8 rounded hover:bg-opacity-80"
+                    @click="acceptRequest(rosterReq.id)"
+                  >
                     <i class="fas fa-fw fa-check"></i>
                   </button>
-                  <button class="bg-red-500 text-white w-8 h-8 rounded hover:bg-opacity-80">
+                  <button
+                    class="bg-red-500 text-white w-8 h-8 rounded hover:bg-opacity-80"
+                    @click="rejectRequest(rosterReq.id)"
+                  >
                     <i class="fas fa-fw fa-xmark"></i>
                   </button>
                 </td>
               </tr>
             </tbody>
           </table>
-          <h3 v-if="filteredRoster.length === 0" class="text-center text-xl font-semibold m-5">No Feedback Found</h3>
+          <h3 v-if="pendingRosterRequests.length === 0" class="text-center text-xl font-semibold m-5">
+            No Feedback Found
+          </h3>
         </div>
       </div>
     </Card>
@@ -61,6 +69,7 @@
             <p class="font-bold text-gray-600 text-sm">Search</p>
             <input
               v-model="search"
+              style="outline: 0"
               class="my-1 py-1 border-b focus:border-b-usa-blue hover:border-b-usa-blue outline-0 focus:border-transparent focus:ring-0 bg-transparent"
               placeholder="Search"
             />
@@ -104,7 +113,12 @@
                   {{ new Date(roster.created_at).toLocaleDateString() }}
                 </td>
                 <td class="px-6 py-1">
-                  <button class="bg-usa-blue text-white px-4 py-1 rounded hover:bg-opacity-80">Edit</button>
+                  <button
+                    class="bg-usa-blue text-white px-4 py-1 rounded hover:bg-opacity-80"
+                    @click="selectUser(roster.cid)"
+                  >
+                    Edit
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -119,7 +133,7 @@
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
 import useFacilityStore from "@/stores/facility";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { Roster, RosterRequest } from "@/types";
 import Page from "@/components/Page.vue";
 import Spinner from "@/components/animations/Spinner.vue";
@@ -127,7 +141,7 @@ import Card from "@/components/Card.vue";
 
 const route = useRoute();
 const facilityStore = useFacilityStore();
-const facilityId = ref<string>(route.params.facility_id as string);
+const facilityId = computed(() => route.params.facility_id as string);
 
 const fetchingRoster = ref<boolean>(true);
 const activeRoster = ref<Roster[]>([]);
@@ -146,11 +160,28 @@ const filteredRoster = computed(() => {
   });
 });
 
-onMounted(async () => {
-  pendingRosterRequests.value = await facilityStore.fetchRosterRequests(facilityId.value, "pending");
+function acceptRequest(reqId: number): void {
+  facilityStore.patchRosterRequest(facilityId.value, reqId, "accepted");
+}
+
+function rejectRequest(reqId: number): void {
+  facilityStore.patchRosterRequest(facilityId.value, reqId, "rejected");
+}
+
+async function fetchRosters(facId: string): Promise<void> {
+  fetchingRoster.value = true;
+  pendingRosterRequests.value = await facilityStore.fetchRosterRequests(facId, "pending");
   fetchingRosterRequests.value = false;
-  activeRoster.value = await facilityStore.fetchRoster(facilityId.value);
+  activeRoster.value = await facilityStore.fetchRoster(facId);
   fetchingRoster.value = false;
+}
+
+watch(facilityId, async (newFacId) => {
+  await fetchRosters(newFacId);
+});
+
+onMounted(async () => {
+  await fetchRosters(facilityId.value);
 });
 </script>
 

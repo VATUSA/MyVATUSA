@@ -14,22 +14,22 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
-              <th scope="col" class="px-6 py-3">Entry</th>
               <th scope="col" class="px-6 py-3">Date</th>
               <th scope="col" class="px-6 py-3">Added By</th>
+              <th scope="col" class="px-6 py-3">Entry</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(ale, idx) in actionLogEntries" :key="idx" class="bg-white border-b">
-              <th scope="row" class="text-wrap px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                {{ ale.entry }}
-              </th>
-              <td class="px-6 py-4">
+              <td class="px-6 py-2">
                 {{ new Date(ale.created_at).toLocaleDateString() }}
               </td>
-              <td class="px-6 py-4">
+              <td class="px-6 py-2">
                 {{ ale.created_by }}
               </td>
+              <th scope="row" class="text-wrap px-6 py-2 font-medium text-gray-900 whitespace-nowrap">
+                {{ ale.entry }}
+              </th>
             </tr>
           </tbody>
         </table>
@@ -51,7 +51,10 @@ const actionLogEntries = ref<ActionLog[]>([]);
 const fetching = ref<boolean>(true);
 
 onMounted(async () => {
-  actionLogEntries.value = await userStore.fetchActionLog(userStore.self.cid);
+  actionLogEntries.value = await userStore.fetchActionLog(userStore.self!.cid);
+  actionLogEntries.value.sort((a, b) => {
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
   fetching.value = false;
 });
 </script>

@@ -102,7 +102,7 @@ onMounted(() => {
     facilityStore.fetchFacilities();
   }
   if (!userStore.hasFetchedRosters) {
-    userStore.fetchRosters();
+    userStore.fetchRosterSelf();
   }
 });
 </script>

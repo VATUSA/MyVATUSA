@@ -30,7 +30,7 @@
           v-if="link.subLinks"
           class="flex rounded p-3 hover:bg-white text-usa-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between my-0.5 w-full"
           active-class="bg-white bg-opacity-10 font-bold text-usa-red"
-          @click="toggleSubLink(link.title)"
+          @click="toggleSubLink(link.title + idx)"
         >
           <div class="flex items-center gap-x-4">
             <span class="w-4 mx-auto text-center">
@@ -42,7 +42,7 @@
           <span v-show="!showSubLinks.includes(link.title)"><i class="fas fa-chevron-up"></i></span>
         </button>
       </div>
-      <div v-if="showSubLinks.includes(link.title)">
+      <div v-if="showSubLinks.includes(link.title + idx)">
         <div
           v-for="(subLink, index) in link.subLinks"
           :key="index"

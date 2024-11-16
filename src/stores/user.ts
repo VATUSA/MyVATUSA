@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { API } from "@/utils/api";
-import { ActionLog, NotificationSettings, User, Role } from "@/types";
+import { ActionLog, NotificationSettings, User, Role, Roster } from "@/types";
 import { getControllerRating, getPilotRating } from "@/utils/rating";
 import { notify } from "notiwind";
 
@@ -33,7 +33,7 @@ const useUserStore = defineStore({
     },
   },
   actions: {
-    async fetchUser(): Promise<void> {
+    async fetchSelf(): Promise<void> {
       this.fetching = true;
       try {
         const { data } = await API.get("/v3/user");
@@ -50,8 +50,8 @@ const useUserStore = defineStore({
         this.fetching = false;
         this.hasFetched = true;
 
-        await this.fetchRoles();
-        await this.fetchRosters();
+        await this.fetchRolesSelf();
+        await this.fetchRosterSelf();
 
         if (this.isLoggedIn) {
           notify(
@@ -63,6 +63,21 @@ const useUserStore = defineStore({
             4000
           );
         }
+      }
+    },
+    async fetchUser(cid: number): Promise<User | null> {
+      try {
+        const { data } = await API.get(`/v3/user/${cid}`);
+        if (data.controller_rating) {
+          data.controller_rating_string = getControllerRating(data.controller_rating);
+        }
+        if (data.pilot_rating) {
+          data.pilot_rating_string = getPilotRating(data.pilot_rating);
+        }
+        return data as User;
+      } catch (e) {
+        console.error(e);
+        return null;
       }
     },
     async patchUser(cid: number, body: { [p: string]: string }): Promise<void> {
@@ -94,7 +109,7 @@ const useUserStore = defineStore({
         );
       }
     },
-    async fetchRoles(): Promise<void> {
+    async fetchRolesSelf(): Promise<void> {
       if (!this.isLoggedIn) return;
       try {
         const { data } = await API.get(`/v3/user/${this.user?.cid}/roles`);
@@ -103,7 +118,16 @@ const useUserStore = defineStore({
         this.roles = [];
       }
     },
-    async fetchRosters(): Promise<void> {
+    async fetchRoles(cid: number): Promise<Role[]> {
+      try {
+        const { data } = await API.get(`/v3/user/${cid}/roles`);
+        return data as Role[];
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
+    },
+    async fetchRosterSelf(): Promise<void> {
       if (!this.isLoggedIn) return;
       try {
         const { data } = await API.get(`/v3/user/${this.user?.cid}/roster`);
@@ -112,6 +136,15 @@ const useUserStore = defineStore({
         this.user!.rosters = [];
       } finally {
         this.hasFetchedRosters = true;
+      }
+    },
+    async fetchRoster(cid: number): Promise<Roster[]> {
+      try {
+        const { data } = await API.get(`/v3/user/${cid}/roster`);
+        return data as Roster[];
+      } catch (e) {
+        console.error(e);
+        return [];
       }
     },
     async fetchActionLog(cid: number): Promise<ActionLog[]> {

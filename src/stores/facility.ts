@@ -63,6 +63,15 @@ const useFacilityStore = defineStore({
         this.fetching = false;
       }
     },
+    async patchRosterRequest(facility: string, id: number, status: string): Promise<void> {
+      this.loading = API.patch(`/v3/facility/${facility}/roster-request/${id}`, { status });
+      await this.loading;
+      this.loading = null;
+    },
+    async regenerateApiKey(facility: string): Promise<string> {
+      const { data } = await API.post(`/v3/facility/${facility}/reset-api-key`);
+      return data.api_key;
+    },
   },
 });
 

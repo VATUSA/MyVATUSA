@@ -44,6 +44,10 @@ export interface User {
 export interface Feedback {
   id: number;
   controller_cid: number;
+  controller_first_name: string;
+  controller_last_name: string;
+  callsign: string;
+  pilot_cid: number;
   facility: string;
   position: string;
   comment: string;
@@ -100,8 +104,10 @@ export interface Role {
 
 export interface Facility {
   id: string;
+  about: string;
   name: string;
   url: string;
+  webhook_url: string;
 }
 
 export interface ActionLog {
