@@ -33,6 +33,10 @@ const useSidebarStore = defineStore({
           return acc;
         }, {});
 
+        // FIXME -
+        facilityRolesMap.ZDV = ["ATM"];
+        facilityRolesMap.ZLC = ["ATM"];
+
         Object.keys(facilityRolesMap).forEach((facility: string) => {
           const seniorStaff: Link[] = [
             {

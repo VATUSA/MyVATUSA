@@ -1,8 +1,9 @@
 <template>
   <Page title="Events">
     <div class="grid grid-cols-4 mx-10">
-      <div class="col-span-3 px-10">
+      <div class="col-span-3 px-10 flex">
         <h3 class="text-2xl font-bold text-usa-grey">Upcoming Events</h3>
+        <Primary text="Create Event" class="ml-auto" color="green" icon="plus" />
       </div>
       <div class="col-span-1 px-10">
         <h3 class="text-2xl font-bold text-usa-grey">Past Events</h3>
@@ -59,6 +60,9 @@
             <img class="rounded-b-xl h-auto mt-4 lg:mt-0" :src="event.banner_url" :alt="event.title" />
           </div>
         </div>
+        <div v-if="events.length === 0" class="text-lg">
+          <p>Hmm... It looks like someones EC needs to get to work.</p>
+        </div>
       </div>
       <div class="col-span-1 space-y-5 p-10">
         <div
@@ -105,6 +109,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import { Event, EventPosition } from "@/types";
 import useEventStore from "@/stores/event";
 import Spinner from "@/components/animations/Spinner.vue";
+import Primary from "@/components/buttons/Primary.vue";
 
 const route = useRoute();
 const eventStore = useEventStore();

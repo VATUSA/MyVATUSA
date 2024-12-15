@@ -11,7 +11,7 @@ export default {
       },
     },
     fontFamily: {
-      redhat: ["Red Hat Display", "sans-serif"],
+      inter: ["Inter", "sans-serif"],
     },
   },
   plugins: [],

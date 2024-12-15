@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { API } from "@/utils/api";
-import { Facility, Roster, RosterRequest } from "@/types";
+import { CreateRosterRequest, Facility, Roster, RosterRequest } from "@/types";
+import { notify } from "notiwind";
 
 interface FacilityState {
   facilities: Facility[];
@@ -63,10 +64,57 @@ const useFacilityStore = defineStore({
         this.fetching = false;
       }
     },
+    async createRosterRequest(facility: string, request: CreateRosterRequest): Promise<void> {
+      try {
+        const data = await API.post(`/v3/facility/${facility}/roster-request`, request);
+        if (data.status === 201) {
+          notify(
+            {
+              group: "br-success",
+              title: "Application Submitted",
+              text: "Please provide up to 7 days for your application to be reviewed.",
+            },
+            4000
+          );
+        }
+      } catch (e) {
+        console.error(e);
+        notify(
+          {
+            group: "br-error",
+            title: "Operation Failed",
+            text: "If the problem persists, please contact support.",
+          },
+          4000
+        );
+      }
+    },
     async patchRosterRequest(facility: string, id: number, status: string): Promise<void> {
-      this.loading = API.patch(`/v3/facility/${facility}/roster-request/${id}`, { status });
-      await this.loading;
-      this.loading = null;
+      try {
+        const { data } = await API.patch(`/v3/facility/${facility}/roster-request/${id}`, {
+          status,
+        });
+        if (data.status === 200) {
+          notify(
+            {
+              group: "br-success",
+              title: "Operation Successful",
+              text: "The roster request has been updated.",
+            },
+            4000
+          );
+        }
+      } catch (e) {
+        console.error(e);
+        notify(
+          {
+            group: "br-error",
+            title: "Operation Failed",
+            text: "If the problem persists, please contact support.",
+          },
+          4000
+        );
+      }
     },
     async regenerateApiKey(facility: string): Promise<string> {
       const { data } = await API.post(`/v3/facility/${facility}/reset-api-key`);

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { API } from "@/utils/api";
-import { ActionLog, NotificationSettings, User, Role, Roster } from "@/types";
+import { ActionLog, NotificationSettings, User, Role, Roster, RatingChange, DisciplinaryLog } from "@/types";
 import { getControllerRating, getPilotRating } from "@/utils/rating";
 import { notify } from "notiwind";
 
@@ -156,6 +156,15 @@ const useUserStore = defineStore({
         return [];
       }
     },
+    async fetchDisciplinaryLog(cid: number): Promise<DisciplinaryLog[]> {
+      try {
+        const { data } = await API.get(`/v3/user/${cid}/disciplinary-log`);
+        return data;
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
+    },
     async fetchNotificationSettings(cid: number): Promise<NotificationSettings | null> {
       try {
         const { data } = await API.get(`/v3/user/${cid}/notification-settings`);
@@ -163,6 +172,15 @@ const useUserStore = defineStore({
       } catch (e) {
         console.error(e);
         return null;
+      }
+    },
+    async fetchRatingChanges(cid: number): Promise<RatingChange[]> {
+      try {
+        const { data } = await API.get(`/v3/user/${cid}/rating-change`);
+        return data;
+      } catch (e) {
+        console.error(e);
+        return [];
       }
     },
     async updateNotificationSettings(cid: number, updatedSettings: NotificationSettings): Promise<null> {

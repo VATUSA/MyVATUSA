@@ -147,7 +147,7 @@
     </div>
     <div v-else key="element2" class="flex">
       <Sidebar class="hidden lg:block max-h-screen overflow-y-auto" />
-      <div class="flex flex-col w-full min-h-screen max-h-screen overflow-y-auto bg-gray-100">
+      <div class="flex flex-col w-full h-screen overflow-y-auto bg-gray-100">
         <Header />
         <router-view class="flex-grow" />
         <Footer />

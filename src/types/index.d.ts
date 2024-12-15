@@ -38,7 +38,23 @@ export interface User {
   controller_rating: number;
   controller_rating_string: string;
   discord_id: string;
+  flags: UserFlags | null;
   rosters?: Roster[];
+}
+
+export interface UserFlags {
+  cid: string;
+  no_staff_role: boolean;
+  no_staff_log_entry_id: number;
+  no_training: boolean;
+  no_training_log_entry_id: number;
+  no_transferring: boolean;
+  no_transferring_log_entry_id: number;
+  no_visiting: boolean;
+  no_visiting_log_entry_id: number;
+  user_transfer_override: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Feedback {
@@ -68,6 +84,16 @@ export interface FeedbackRequest {
   status: string;
 }
 
+export interface RatingChange {
+  id: number;
+  cid: number;
+  new_rating: number;
+  old_rating: number;
+  created_at: string;
+  created_by_cid: number;
+  updated_at: string;
+}
+
 export interface Roster {
   id: number;
   first_name: string;
@@ -95,8 +121,15 @@ export interface RosterRequest {
   updated_at: string;
 }
 
+export interface CreateRosterRequest {
+  cid: number;
+  request_type: string;
+  status: string;
+  reason: string;
+}
+
 export interface Role {
-  role_id: string;
+  role: string;
   facility_id: string;
   roster_id: number;
   created_at: string;
@@ -118,6 +151,17 @@ export interface ActionLog {
   created_by: string;
   updated_at: string;
   updated_by: string;
+}
+
+export interface DisciplinaryLog {
+  id: number;
+  cid: number;
+  entry: string;
+  created_at: string;
+  created_by: string;
+  updated_at: string;
+  updated_by: string;
+  vatusa_only: boolean;
 }
 
 export interface NotificationSettings {
