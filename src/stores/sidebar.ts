@@ -93,7 +93,7 @@ const useSidebarStore = defineStore({
                 {
                   title: "Notes",
                   icon: "fa-solid fa-book",
-                  to: { name: "Training-Notes", params: { facility_id: facility } },
+                  to: { name: "Training Notes", params: { facility_id: facility } },
                 },
               ],
               showSubLinks: true,

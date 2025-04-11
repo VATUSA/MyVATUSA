@@ -217,3 +217,28 @@ export interface EventRouting {
   notes: string;
   created_at: string;
 }
+
+export interface TrainingNote {
+  id: number;
+  facility: string;
+  student_cid: number;
+  student_name: string;
+  instructor_cid: number;
+  instructor_name: string;
+  notes: string;
+  position: string;
+  rating_exam_id: number;
+  rating_exam_notes: string;
+  rating_exam_result: boolean;
+  session_date: string;
+  duration: number;
+}
+
+export interface CreateTrainingNote {
+  facility: string;
+  notes: string;
+  position: string;
+  session_date: string;
+  rating_exam_id: number;
+  duration: number;
+}

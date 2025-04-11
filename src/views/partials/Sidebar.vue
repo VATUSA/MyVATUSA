@@ -43,9 +43,10 @@
         </button>
       </div>
       <div v-if="showSubLinks.includes(link.title + idx)">
-        <div
+        <router-link
           v-for="(subLink, index) in link.subLinks"
           :key="index"
+          :to="subLink.to"
           class="pl-8 flex rounded p-2 hover:bg-white hover:bg-opacity-20 hover:text-usa-red items-center justify-between text-usa-white"
         >
           <div class="flex items-center gap-x-4">
@@ -54,7 +55,7 @@
             </span>
             <h2>{{ subLink.title }}</h2>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </div>

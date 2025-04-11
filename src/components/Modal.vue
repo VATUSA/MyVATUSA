@@ -1,6 +1,16 @@
 <template>
-  <div v-if="props.visible" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="bg-white p-10 rounded shadow-lg relative" :class="size === undefined ? 'w-4/5 lg:w-1/2' : size">
+  <div
+    v-if="props.visible"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    tabindex="-1"
+    @click="handleBackdropClick"
+    @keydown.esc="close"
+  >
+    <div
+      class="bg-white p-10 rounded shadow-lg relative"
+      :class="size === undefined ? 'w-4/5 lg:w-1/2' : size"
+      @click.stop
+    >
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl text-usa-blue font-bold">{{ props.title }}</h2>
         <span @click="close">
@@ -14,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onUnmounted } from "vue";
+
 const props = defineProps<{
   visible: boolean;
   title: string;
@@ -27,6 +39,26 @@ const emit = defineEmits<{
 const close = (): void => {
   emit("close");
 };
+
+const handleBackdropClick = (event: MouseEvent): void => {
+  if (event.target === event.currentTarget) {
+    close();
+  }
+};
+
+const handleEscKey = (event: KeyboardEvent): void => {
+  if (event.key === "Escape" && props.visible) {
+    close();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("keydown", handleEscKey);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", handleEscKey);
+});
 </script>
 
 <style scoped></style>

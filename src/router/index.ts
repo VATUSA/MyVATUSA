@@ -112,7 +112,7 @@ const routes = [
       {
         path: "training/notes",
         name: "Training Notes",
-        component: () => import("@/views/facility/Engineering.vue"),
+        component: () => import("@/views/facility/training/Notes.vue"),
         meta: {
           requiresRole: ["ATM", "DATM", "TA", "MTR", "INS"],
         },
@@ -120,7 +120,7 @@ const routes = [
       {
         path: "training/calendar",
         name: "Training Calendar",
-        component: () => import("@/views/facility/Engineering.vue"),
+        component: () => import("@/views/facility/training/Calendar.vue"),
         meta: {
           requiresRole: ["ATM", "DATM", "TA", "MTR", "INS"],
         },

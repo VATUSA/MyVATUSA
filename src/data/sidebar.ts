@@ -42,7 +42,7 @@ const SidebarLinks: Link[] = [
       {
         title: "Book a Session",
         icon: "fa-solid fa-calendar",
-        // to: { name: "Training-Scheduler" },
+        // to: { name: "Training Calendar" },
         to: { name: "Home" },
       },
       {
